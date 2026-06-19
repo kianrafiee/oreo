@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mock Status Page — Randomized State</title>
+<style>
+  :root {
+    --bg: #0f1115; --card: #1a1d24; --border: #2a2e38;
+    --text: #e8eaed; --muted: #9aa0aa;
+    --open: #4ade80; --closed: #f87171; --waitlist: #fbbf24;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 48px 24px;
+  }
+  .panel {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 18px; padding: 48px 56px; text-align: center; max-width: 420px; width: 100%;
+  }
+  .icon-wrap {
+    background: var(--bg); border-radius: 16px; height: 160px;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 28px;
+  }
+  .icon-wrap svg { width: 80px; height: 80px; color: var(--status-color); }
+  .label { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .status {
+    font-size: 2.4rem; font-weight: 700; margin-top: 8px; color: var(--status-color);
+  }
+  .meta { color: var(--muted); font-size: 0.8rem; margin-top: 24px; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+  <div class="panel" id="panel">
+    <div class="icon-wrap"><svg id="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"></svg></div>
+    <div class="label">Current status</div>
+    <div class="status" id="status"></div>
+    <div class="meta" id="meta"></div>
+  </div>
+
+<script>
+// [status, color-var, svgPath]
+const STATES = [
+  ["Open", "var(--open)", "M12 2a10 10 0 0 0 0 20a10 10 0 0 0 0-20m-2 14.5l-4-4l1.41-1.41L10 13.67l6.59-6.59L18 8.5z"],
+  ["Closed", "var(--closed)", "M12 2a10 10 0 0 0 0 20a10 10 0 0 0 0-20m4.3 12.89l-1.41 1.41L12 13.41L9.11 16.3L7.7 14.89L10.59 12L7.7 9.11L9.11 7.7L12 10.59l2.89-2.89l1.41 1.41L13.41 12z"],
+  ["Waitlist", "var(--waitlist)", "M12 2a10 10 0 0 0 0 20a10 10 0 0 0 0-20m0 2a8 8 0 0 1 8 8a8 8 0 0 1-8 8a8 8 0 0 1-8-8a8 8 0 0 1 8-8m-.5 2v6.25l5.25 3.15l.75-1.23l-4.5-2.67V6z"]
+];
+
+const [status, color, path] = STATES[Math.floor(Math.random() * STATES.length)];
+
+document.documentElement.style.setProperty("--status-color", color);
+document.getElementById("icon").innerHTML = `<path d="${path}"/>`;
+document.getElementById("status").textContent = status;
+document.getElementById("meta").textContent = new Date().toISOString();
+</script>
+</body>
+</html>
